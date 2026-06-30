@@ -1,0 +1,16 @@
+import { SiteFooter } from "@/components/layout/site-footer";
+import { SiteHeader } from "@/components/layout/site-header";
+
+type MarketingShellProps = {
+  children: React.ReactNode;
+};
+
+export function MarketingShell({ children }: MarketingShellProps) {
+  return (
+    <div className="min-h-screen bg-white text-slate-950">
+      <SiteHeader />
+      {children}
+      <SiteFooter />
+    </div>
+  );
+}
