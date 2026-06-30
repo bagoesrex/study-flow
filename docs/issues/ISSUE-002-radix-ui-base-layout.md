@@ -1317,12 +1317,6 @@ Semua file sudah sesuai format Prettier.
 - Active sidebar state bisa dibuat di issue berikutnya.
 - Mobile sidebar bisa dibuat di issue berikutnya.
 
-## Suggested Branch Name
-
-```bash
-issue-002-radix-ui-base-layout
-```
-
 ## Suggested Commit Message
 
 ```bash
