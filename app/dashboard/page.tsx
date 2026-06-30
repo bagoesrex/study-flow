@@ -32,10 +32,17 @@ const dashboardStats = [
   },
 ];
 
-export default function DashboardPage() {
+import { requireUser } from "@/lib/auth-guard";
+
+export default async function DashboardPage() {
+  const user = await requireUser();
+
   return (
     <DashboardShell>
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+      <div>
+        <p className="text-sm text-slate-500">Welcome back, {user.name}</p>
+      </div>
+      <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         {dashboardStats.map((stat) => (
           <StatCard
             key={stat.label}

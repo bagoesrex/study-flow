@@ -103,12 +103,8 @@
           "name": "feedbacks_user_id_users_id_fk",
           "tableFrom": "feedbacks",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -261,12 +257,8 @@
           "name": "study_plans_user_id_users_id_fk",
           "tableFrom": "study_plans",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -274,12 +266,8 @@
           "name": "study_plans_subject_id_subjects_id_fk",
           "tableFrom": "study_plans",
           "tableTo": "subjects",
-          "columnsFrom": [
-            "subject_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["subject_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -454,12 +442,8 @@
           "name": "study_sessions_user_id_users_id_fk",
           "tableFrom": "study_sessions",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -467,12 +451,8 @@
           "name": "study_sessions_subject_id_subjects_id_fk",
           "tableFrom": "study_sessions",
           "tableTo": "subjects",
-          "columnsFrom": [
-            "subject_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["subject_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -480,12 +460,8 @@
           "name": "study_sessions_study_plan_id_study_plans_id_fk",
           "tableFrom": "study_sessions",
           "tableTo": "study_plans",
-          "columnsFrom": [
-            "study_plan_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["study_plan_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
@@ -493,12 +469,8 @@
           "name": "study_sessions_task_id_study_tasks_id_fk",
           "tableFrom": "study_sessions",
           "tableTo": "study_tasks",
-          "columnsFrom": [
-            "task_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["task_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -661,12 +633,8 @@
           "name": "study_tasks_user_id_users_id_fk",
           "tableFrom": "study_tasks",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -674,12 +642,8 @@
           "name": "study_tasks_study_plan_id_study_plans_id_fk",
           "tableFrom": "study_tasks",
           "tableTo": "study_plans",
-          "columnsFrom": [
-            "study_plan_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["study_plan_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -797,12 +761,8 @@
           "name": "subjects_user_id_users_id_fk",
           "tableFrom": "subjects",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -914,12 +874,8 @@
           "name": "testimonials_user_id_users_id_fk",
           "tableFrom": "testimonials",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "set null",
           "onUpdate": "no action"
         }
@@ -1017,68 +973,37 @@
     "public.feedback_status": {
       "name": "feedback_status",
       "schema": "public",
-      "values": [
-        "OPEN",
-        "REVIEWED",
-        "CLOSED"
-      ]
+      "values": ["OPEN", "REVIEWED", "CLOSED"]
     },
     "public.feedback_type": {
       "name": "feedback_type",
       "schema": "public",
-      "values": [
-        "BUG",
-        "FEATURE_REQUEST",
-        "GENERAL"
-      ]
+      "values": ["BUG", "FEATURE_REQUEST", "GENERAL"]
     },
     "public.mood": {
       "name": "mood",
       "schema": "public",
-      "values": [
-        "FOCUSED",
-        "NORMAL",
-        "TIRED",
-        "DISTRACTED"
-      ]
+      "values": ["FOCUSED", "NORMAL", "TIRED", "DISTRACTED"]
     },
     "public.priority": {
       "name": "priority",
       "schema": "public",
-      "values": [
-        "LOW",
-        "MEDIUM",
-        "HIGH",
-        "URGENT"
-      ]
+      "values": ["LOW", "MEDIUM", "HIGH", "URGENT"]
     },
     "public.study_plan_status": {
       "name": "study_plan_status",
       "schema": "public",
-      "values": [
-        "NOT_STARTED",
-        "IN_PROGRESS",
-        "COMPLETED",
-        "PAUSED",
-        "CANCELLED"
-      ]
+      "values": ["NOT_STARTED", "IN_PROGRESS", "COMPLETED", "PAUSED", "CANCELLED"]
     },
     "public.task_status": {
       "name": "task_status",
       "schema": "public",
-      "values": [
-        "TODO",
-        "IN_PROGRESS",
-        "DONE"
-      ]
+      "values": ["TODO", "IN_PROGRESS", "DONE"]
     },
     "public.user_role": {
       "name": "user_role",
       "schema": "public",
-      "values": [
-        "USER",
-        "ADMIN"
-      ]
+      "values": ["USER", "ADMIN"]
     }
   },
   "schemas": {},
