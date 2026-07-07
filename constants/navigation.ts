@@ -15,16 +15,16 @@ export const marketingNavItems = [
     href: "#features",
   },
   {
-    label: "Dashboard",
-    href: "#dashboard",
+    label: "How It Works",
+    href: "#how-it-works",
   },
   {
     label: "Analytics",
     href: "#analytics",
   },
   {
-    label: "Pricing",
-    href: "#pricing",
+    label: "Testimonials",
+    href: "#testimonials",
   },
 ];
 
