@@ -1,12 +1,21 @@
-import { Card } from "@/components/ui/card";
+import { StudySessionCreateForm } from "@/features/study-sessions/components/study-session-create-form";
+import { StudySessionList } from "@/features/study-sessions/components/study-session-list";
 
 export default function SessionsPage() {
   return (
-    <Card className="p-6">
-      <h2 className="text-xl font-semibold tracking-tight text-slate-950">Study Sessions</h2>
-      <p className="mt-2 text-sm text-slate-500">
-        Study session tracker will be implemented in the next issue.
-      </p>
-    </Card>
+    <div className="grid gap-6 xl:grid-cols-[420px_1fr]">
+      <StudySessionCreateForm />
+
+      <div>
+        <div className="mb-5">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-950">Study Sessions</h1>
+          <p className="mt-2 text-sm text-slate-500">
+            Catat durasi belajar, mood, catatan, dan aktivitas belajar harian kamu.
+          </p>
+        </div>
+
+        <StudySessionList />
+      </div>
+    </div>
   );
 }
