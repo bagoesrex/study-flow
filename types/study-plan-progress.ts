@@ -1,8 +1,10 @@
-export type StudyPlanStatus = "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED" | "PAUSED" | "CANCELLED";
+export type StudyPlanProgress = {
+  totalTasks: number;
+  completedTasks: number;
+  progress: number;
+};
 
-export type StudyPlanPriority = "LOW" | "MEDIUM" | "HIGH" | "URGENT";
-
-export type StudyPlanItem = {
+export type StudyPlanWithProgress = {
   id: string;
   subjectId: string;
   subjectName: string;
@@ -12,8 +14,8 @@ export type StudyPlanItem = {
   goal: string | null;
   startDate: string | null;
   endDate: string | null;
-  status: StudyPlanStatus;
-  priority: StudyPlanPriority;
+  status: "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED" | "PAUSED" | "CANCELLED";
+  priority: "LOW" | "MEDIUM" | "HIGH" | "URGENT";
   estimatedHours: number | null;
   totalTasks: number;
   completedTasks: number;

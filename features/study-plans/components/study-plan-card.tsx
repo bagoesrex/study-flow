@@ -3,8 +3,13 @@
 import type { StudyPlanItem } from "@/types/study-plan";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { StudyPlanDeleteDialog } from "@/features/study-plans/components/study-plan-delete-dialog";
 import { StudyPlanUpdateDialog } from "@/features/study-plans/components/study-plan-update-dialog";
+import {
+  getProgressDescription,
+  getProgressLabel,
+} from "@/features/study-plans/utils/study-plan-progress";
 
 type StudyPlanCardProps = {
   plan: StudyPlanItem;
@@ -88,6 +93,24 @@ export function StudyPlanCard({ plan }: StudyPlanCardProps) {
         ) : null}
 
         {plan.estimatedHours ? <span>⏱ {plan.estimatedHours}h estimated</span> : null}
+      </div>
+
+      <div className="my-5">
+        <div className="mb-2 flex items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-medium text-slate-950">{getProgressLabel(plan.progress)}</p>
+            <p className="text-xs text-slate-500">
+              {getProgressDescription({
+                completedTasks: plan.completedTasks,
+                totalTasks: plan.totalTasks,
+              })}
+            </p>
+          </div>
+
+          <p className="text-sm font-semibold text-slate-950">{plan.progress}%</p>
+        </div>
+
+        <Progress value={plan.progress} />
       </div>
 
       <div className="flex items-center justify-end gap-2 border-t border-slate-100 pt-4">

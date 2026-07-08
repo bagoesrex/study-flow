@@ -1,6 +1,6 @@
 "use server";
 
-import { and, desc, eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 import { auth } from "@/auth";
@@ -14,8 +14,9 @@ import {
   type StudyPlanInput,
   type UpdateStudyPlanInput,
 } from "@/features/study-plans/schemas/study-plan-schema";
+import { getStudyPlansWithProgress } from "@/features/study-plans/queries/get-study-plan-progress";
 import type { ActionResponse } from "@/types/action-response";
-import type { StudyPlanItem } from "@/types/study-plan";
+import type { StudyPlanWithProgress } from "@/types/study-plan-progress";
 
 function normalizeText(value?: string) {
   if (!value || value.trim().length === 0) {
@@ -63,31 +64,11 @@ async function ensureSubjectBelongsToUser(subjectId: string, userId: string) {
   return subject;
 }
 
-export async function getStudyPlansAction(): Promise<ActionResponse<StudyPlanItem[]>> {
+export async function getStudyPlansAction(): Promise<ActionResponse<StudyPlanWithProgress[]>> {
   try {
     const user = await requireAuthUser();
 
-    const data = await db
-      .select({
-        id: studyPlans.id,
-        subjectId: studyPlans.subjectId,
-        subjectName: subjects.name,
-        subjectColor: subjects.color,
-        title: studyPlans.title,
-        description: studyPlans.description,
-        goal: studyPlans.goal,
-        startDate: studyPlans.startDate,
-        endDate: studyPlans.endDate,
-        status: studyPlans.status,
-        priority: studyPlans.priority,
-        estimatedHours: studyPlans.estimatedHours,
-        createdAt: studyPlans.createdAt,
-        updatedAt: studyPlans.updatedAt,
-      })
-      .from(studyPlans)
-      .innerJoin(subjects, eq(studyPlans.subjectId, subjects.id))
-      .where(eq(studyPlans.userId, user.id))
-      .orderBy(desc(studyPlans.createdAt));
+    const data = await getStudyPlansWithProgress(user.id);
 
     return {
       success: true,

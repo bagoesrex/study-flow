@@ -12,7 +12,7 @@ export function StudyPlanList() {
     return (
       <div className="grid gap-4 md:grid-cols-2">
         {Array.from({ length: 4 }).map((_, index) => (
-          <Card key={index} className="h-56 animate-pulse bg-slate-100" />
+          <Card key={index} className="h-72 animate-pulse bg-slate-100" />
         ))}
       </div>
     );

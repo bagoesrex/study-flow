@@ -6,6 +6,7 @@ import { auth } from "@/auth";
 import { db } from "@/db";
 import { studyPlans, studySessions, studyTasks, subjects } from "@/db/schema";
 import type { ActionResponse } from "@/types/action-response";
+import { calculateStudyPlanProgress } from "@/features/study-plans/utils/study-plan-progress";
 import type {
   DashboardActivePlanProgress,
   DashboardData,
@@ -155,7 +156,10 @@ export async function getDashboardDataAction(): Promise<ActionResponse<Dashboard
       subjectColor: plan.subjectColor,
       totalTasks: plan.totalTasks,
       completedTasks: plan.completedTasks,
-      progress: plan.totalTasks > 0 ? Math.round((plan.completedTasks / plan.totalTasks) * 100) : 0,
+      progress: calculateStudyPlanProgress({
+        totalTasks: plan.totalTasks,
+        completedTasks: plan.completedTasks,
+      }),
     }));
 
     return {
