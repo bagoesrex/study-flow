@@ -1,99 +1,62 @@
-import { BookOpen, CalendarDays, CheckSquare, Timer } from "lucide-react";
+import { getDashboardDataAction } from "@/actions/dashboard";
+import { ActivePlanProgressCard } from "@/features/dashboard/components/active-plan-progress-card";
+import { DashboardEmptyState } from "@/features/dashboard/components/dashboard-empty-state";
+import { DashboardOverviewCards } from "@/features/dashboard/components/dashboard-overview-cards";
+import { RecentSessionsCard } from "@/features/dashboard/components/recent-sessions-card";
+import { RecentTasksCard } from "@/features/dashboard/components/recent-tasks-card";
+import { Card } from "@/components/ui/card";
 
-import { StatCard } from "@/components/common/stat-card";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+export default async function DashboardPage() {
+  const result = await getDashboardDataAction();
 
-const dashboardStats = [
-  {
-    label: "Study Hours",
-    value: "8.5h",
-    description: "Tracked this week",
-    icon: Timer,
-  },
-  {
-    label: "Active Plans",
-    value: "3",
-    description: "Currently in progress",
-    icon: CalendarDays,
-  },
-  {
-    label: "Completed Tasks",
-    value: "12",
-    description: "Finished this week",
-    icon: CheckSquare,
-  },
-  {
-    label: "Subjects",
-    value: "5",
-    description: "Learning categories",
-    icon: BookOpen,
-  },
-];
+  if (!result.success || !result.data) {
+    return (
+      <Card className="p-6">
+        <h1 className="text-lg font-semibold text-slate-950">Gagal memuat dashboard</h1>
+        <p className="mt-2 text-sm text-slate-500">Silakan refresh halaman atau coba lagi nanti.</p>
+      </Card>
+    );
+  }
 
-export default function DashboardPage() {
+  const data = result.data;
+
+  const hasNoData =
+    data.overview.totalSubjects === 0 &&
+    data.overview.totalTasks === 0 &&
+    data.overview.totalStudySessions === 0;
+
+  if (hasNoData) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-950">Dashboard</h1>
+          <p className="mt-2 text-sm text-slate-500">
+            Welcome to StudyFlow. Start organizing your learning progress.
+          </p>
+        </div>
+
+        <DashboardEmptyState />
+      </div>
+    );
+  }
+
   return (
-    <>
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        {dashboardStats.map((stat) => (
-          <StatCard
-            key={stat.label}
-            label={stat.label}
-            value={stat.value}
-            description={stat.description}
-          />
-        ))}
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight text-slate-950">Dashboard</h1>
+        <p className="mt-2 text-sm text-slate-500">
+          Overview of your study progress, tasks, and recent learning activity.
+        </p>
       </div>
 
-      <div className="mt-8 grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
-        <Card>
-          <CardHeader>
-            <CardTitle>Weekly Study Progress</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid h-72 grid-cols-7 items-end gap-3">
-              {[40, 70, 50, 90, 65, 80, 55].map((height, index) => (
-                <div
-                  key={index}
-                  className="rounded-full bg-gradient-to-t from-indigo-600 to-cyan-400"
-                  style={{ height: `${height}%` }}
-                />
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+      <DashboardOverviewCards overview={data.overview} />
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Active Plans</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-5">
-            <div>
-              <div className="mb-2 flex items-center justify-between">
-                <p className="text-sm font-medium text-slate-700">Next.js Fullstack</p>
-                <p className="text-sm font-semibold text-slate-950">72%</p>
-              </div>
-              <Progress value={72} />
-            </div>
-
-            <div>
-              <div className="mb-2 flex items-center justify-between">
-                <p className="text-sm font-medium text-slate-700">Django API Integration</p>
-                <p className="text-sm font-semibold text-slate-950">48%</p>
-              </div>
-              <Progress value={48} />
-            </div>
-
-            <div>
-              <div className="mb-2 flex items-center justify-between">
-                <p className="text-sm font-medium text-slate-700">Database Design</p>
-                <p className="text-sm font-semibold text-slate-950">86%</p>
-              </div>
-              <Progress value={86} />
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid gap-6 xl:grid-cols-[1fr_0.9fr]">
+        <ActivePlanProgressCard plans={data.activePlanProgress} />
+        <RecentSessionsCard sessions={data.recentSessions} />
       </div>
-    </>
+
+      <RecentTasksCard tasks={data.recentTasks} />
+    </div>
   );
 }

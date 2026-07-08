@@ -119,6 +119,7 @@ export async function createSubjectAction(
       });
 
     revalidatePath("/dashboard/subjects");
+    revalidatePath("/dashboard");
 
     return {
       success: true,
@@ -174,6 +175,7 @@ export async function updateSubjectAction(input: UpdateSubjectInput): Promise<Ac
       .where(and(eq(subjects.id, parsed.data.id), eq(subjects.userId, user.id)));
 
     revalidatePath("/dashboard/subjects");
+    revalidatePath("/dashboard");
 
     return {
       success: true,
@@ -228,6 +230,7 @@ export async function toggleArchiveSubjectAction(
       .where(and(eq(subjects.id, parsed.data.id), eq(subjects.userId, user.id)));
 
     revalidatePath("/dashboard/subjects");
+    revalidatePath("/dashboard");
 
     return {
       success: true,
@@ -275,6 +278,7 @@ export async function deleteSubjectAction(input: DeleteSubjectInput): Promise<Ac
       .where(and(eq(subjects.id, parsed.data.id), eq(subjects.userId, user.id)));
 
     revalidatePath("/dashboard/subjects");
+    revalidatePath("/dashboard");
 
     return {
       success: true,
