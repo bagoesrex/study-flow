@@ -6,6 +6,7 @@ import { updateTaskAction } from "@/actions/tasks";
 import type { UpdateTaskInput } from "@/features/tasks/schemas/task-schema";
 import { tasksQueryKey } from "@/features/tasks/hooks/use-tasks-query";
 import { studyPlansQueryKey } from "@/features/study-plans/hooks/use-study-plans-query";
+import { analyticsQueryKey } from "@/features/analytics/hooks/use-analytics-query";
 
 export function useUpdateTaskMutation() {
   const queryClient = useQueryClient();
@@ -17,6 +18,7 @@ export function useUpdateTaskMutation() {
         await Promise.all([
           queryClient.invalidateQueries({ queryKey: tasksQueryKey }),
           queryClient.invalidateQueries({ queryKey: studyPlansQueryKey }),
+          queryClient.invalidateQueries({ queryKey: analyticsQueryKey }),
         ]);
       }
     },
