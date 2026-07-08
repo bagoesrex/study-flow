@@ -55,6 +55,11 @@ export const dashboardNavItems = [
     icon: Timer,
   },
   {
+    label: "Calendar",
+    href: "/dashboard/calendar",
+    icon: CalendarDays,
+  },
+  {
     label: "Analytics",
     href: "/dashboard/analytics",
     icon: BarChart3,

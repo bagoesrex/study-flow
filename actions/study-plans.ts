@@ -128,6 +128,7 @@ export async function createStudyPlanAction(
       });
 
     revalidatePath("/dashboard/plans");
+    revalidatePath("/dashboard/calendar");
     revalidatePath("/dashboard");
 
     return {
@@ -200,6 +201,7 @@ export async function updateStudyPlanAction(input: UpdateStudyPlanInput): Promis
       .where(and(eq(studyPlans.id, parsed.data.id), eq(studyPlans.userId, user.id)));
 
     revalidatePath("/dashboard/plans");
+    revalidatePath("/dashboard/calendar");
     revalidatePath("/dashboard");
 
     return {
@@ -248,6 +250,7 @@ export async function deleteStudyPlanAction(input: DeleteStudyPlanInput): Promis
       .where(and(eq(studyPlans.id, parsed.data.id), eq(studyPlans.userId, user.id)));
 
     revalidatePath("/dashboard/plans");
+    revalidatePath("/dashboard/calendar");
     revalidatePath("/dashboard");
 
     return {

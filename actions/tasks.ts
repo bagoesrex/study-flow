@@ -157,6 +157,7 @@ export async function createTaskAction(input: TaskInput): Promise<ActionResponse
     revalidatePath("/dashboard/tasks");
     revalidatePath("/dashboard/plans");
     revalidatePath("/dashboard/analytics");
+    revalidatePath("/dashboard/calendar");
     revalidatePath("/dashboard");
 
     return {
@@ -230,6 +231,7 @@ export async function updateTaskAction(input: UpdateTaskInput): Promise<ActionRe
     revalidatePath("/dashboard/tasks");
     revalidatePath("/dashboard/plans");
     revalidatePath("/dashboard/analytics");
+    revalidatePath("/dashboard/calendar");
     revalidatePath("/dashboard");
 
     return {
@@ -287,6 +289,7 @@ export async function updateTaskStatusAction(
     revalidatePath("/dashboard/tasks");
     revalidatePath("/dashboard/plans");
     revalidatePath("/dashboard/analytics");
+    revalidatePath("/dashboard/calendar");
     revalidatePath("/dashboard");
 
     return {
@@ -337,6 +340,7 @@ export async function deleteTaskAction(input: DeleteTaskInput): Promise<ActionRe
     revalidatePath("/dashboard/tasks");
     revalidatePath("/dashboard/plans");
     revalidatePath("/dashboard/analytics");
+    revalidatePath("/dashboard/calendar");
     revalidatePath("/dashboard");
 
     return {
