@@ -1,0 +1,24 @@
+"use client";
+
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { deleteTaskAction } from "@/actions/tasks";
+import type { DeleteTaskInput } from "@/features/tasks/schemas/task-schema";
+import { tasksQueryKey } from "@/features/tasks/hooks/use-tasks-query";
+import { studyPlansQueryKey } from "@/features/study-plans/hooks/use-study-plans-query";
+
+export function useDeleteTaskMutation() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (input: DeleteTaskInput) => deleteTaskAction(input),
+    onSuccess: async (result) => {
+      if (result.success) {
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: tasksQueryKey }),
+          queryClient.invalidateQueries({ queryKey: studyPlansQueryKey }),
+        ]);
+      }
+    },
+  });
+}
