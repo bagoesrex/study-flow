@@ -13,6 +13,7 @@ export function SubjectCreateForm() {
   const mutation = useCreateSubjectMutation();
 
   const form = useForm<SubjectInput>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(subjectSchema) as any,
     defaultValues: {
       name: "",

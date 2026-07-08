@@ -21,6 +21,7 @@ export function SubjectUpdateForm({ subject, onSuccess }: SubjectUpdateFormProps
   const mutation = useUpdateSubjectMutation();
 
   const form = useForm<UpdateSubjectInput>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(updateSubjectSchema) as any,
     defaultValues: {
       id: subject.id,
