@@ -6,6 +6,7 @@ import {
   Home,
   LayoutDashboard,
   Settings,
+  Sparkles,
   Timer,
 } from "lucide-react";
 
@@ -63,6 +64,11 @@ export const dashboardNavItems = [
     label: "Analytics",
     href: "/dashboard/analytics",
     icon: BarChart3,
+  },
+  {
+    label: "AI Generator",
+    href: "/dashboard/ai",
+    icon: Sparkles,
   },
   {
     label: "Settings",
