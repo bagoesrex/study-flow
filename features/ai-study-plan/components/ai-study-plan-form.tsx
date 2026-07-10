@@ -25,6 +25,7 @@ export function AiStudyPlanForm({ onGenerated }: AiStudyPlanFormProps) {
   const generateMutation = useGenerateStudyPlanMutation();
 
   const form = useForm<GenerateStudyPlanInput>({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(generateStudyPlanSchema) as any,
     defaultValues: {
       subjectId: "",
