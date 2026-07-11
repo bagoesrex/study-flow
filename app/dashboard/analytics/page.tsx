@@ -7,7 +7,8 @@ import { StudyHoursBySubjectChart } from "@/features/analytics/components/study-
 import { TaskStatusChart } from "@/features/analytics/components/task-status-chart";
 import { WeeklyStudyHoursChart } from "@/features/analytics/components/weekly-study-hours-chart";
 import { useAnalyticsQuery } from "@/features/analytics/hooks/use-analytics-query";
-import { Card } from "@/components/ui/card";
+import { CardGridSkeleton } from "@/components/skeletons/card-grid-skeleton";
+import { ErrorState } from "@/components/common/error-state";
 
 export default function AnalyticsPage() {
   const query = useAnalyticsQuery();
@@ -22,27 +23,15 @@ export default function AnalyticsPage() {
           </p>
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, index) => (
-            <Card key={index} className="h-32 animate-pulse bg-slate-100" />
-          ))}
-        </div>
+        <CardGridSkeleton count={6} className="md:grid-cols-2 xl:grid-cols-3" />
 
-        <div className="grid gap-6 xl:grid-cols-2">
-          <Card className="h-80 animate-pulse bg-slate-100" />
-          <Card className="h-80 animate-pulse bg-slate-100" />
-        </div>
+        <CardGridSkeleton count={2} />
       </div>
     );
   }
 
   if (query.isError) {
-    return (
-      <Card className="p-6">
-        <h1 className="text-lg font-semibold text-slate-950">Gagal memuat analytics</h1>
-        <p className="mt-2 text-sm text-slate-500">Silakan refresh halaman atau coba lagi nanti.</p>
-      </Card>
-    );
+    return <ErrorState onRetry={() => query.refetch()} />;
   }
 
   const data = query.data!;

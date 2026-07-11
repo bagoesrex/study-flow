@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
+import { FeedbackMessage } from "@/components/common/feedback-message";
+import { LoadingSpinner } from "@/components/common/loading-spinner";
 import { registerSchema, type RegisterInput } from "@/features/auth/schemas/auth-schema";
 import { useRegisterMutation } from "@/features/auth/hooks/use-register-mutation";
 import { Button } from "@/components/ui/button";
@@ -59,11 +61,21 @@ export function RegisterForm() {
       </div>
 
       {form.formState.errors.root ? (
-        <p className="text-sm text-rose-600">{form.formState.errors.root.message}</p>
+        <FeedbackMessage
+          variant="error"
+          message={form.formState.errors.root.message ?? "Terjadi kesalahan."}
+        />
       ) : null}
 
       <Button type="submit" className="w-full" disabled={mutation.isPending}>
-        {mutation.isPending ? "Creating account..." : "Create Account"}
+        {mutation.isPending ? (
+          <>
+            <LoadingSpinner className="mr-2 h-4 w-4" />
+            Creating account...
+          </>
+        ) : (
+          "Create Account"
+        )}
       </Button>
     </form>
   );

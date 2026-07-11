@@ -12,8 +12,10 @@ import { useSubjectsQuery } from "@/features/subjects/hooks/use-subjects-query";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { FeedbackMessage } from "@/components/common/feedback-message";
+import { LoadingSpinner } from "@/components/common/loading-spinner";
 import Link from "next/link";
-import { Loader2, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import type { AiGeneratedStudyPlan } from "@/types/ai-study-plan";
 
 type AiStudyPlanFormProps = {
@@ -185,13 +187,16 @@ export function AiStudyPlanForm({ onGenerated }: AiStudyPlanFormProps) {
           </div>
 
           {form.formState.errors.root ? (
-            <p className="text-sm text-rose-600">{form.formState.errors.root.message}</p>
+            <FeedbackMessage
+              variant="error"
+              message={form.formState.errors.root.message ?? "Terjadi kesalahan."}
+            />
           ) : null}
 
           <Button type="submit" disabled={generateMutation.isPending} className="w-full">
             {generateMutation.isPending ? (
               <>
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <LoadingSpinner className="mr-2 h-4 w-4" />
                 Generating...
               </>
             ) : (

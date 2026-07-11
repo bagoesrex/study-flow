@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
+import { FeedbackMessage } from "@/components/common/feedback-message";
+import { LoadingSpinner } from "@/components/common/loading-spinner";
 import { loginSchema, type LoginInput } from "@/features/auth/schemas/auth-schema";
 import { useLoginMutation } from "@/features/auth/hooks/use-login-mutation";
 import { Button } from "@/components/ui/button";
@@ -52,11 +54,21 @@ export function LoginForm() {
       </div>
 
       {form.formState.errors.root ? (
-        <p className="text-sm text-rose-600">{form.formState.errors.root.message}</p>
+        <FeedbackMessage
+          variant="error"
+          message={form.formState.errors.root.message ?? "Terjadi kesalahan."}
+        />
       ) : null}
 
       <Button type="submit" className="w-full" disabled={mutation.isPending}>
-        {mutation.isPending ? "Logging in..." : "Login"}
+        {mutation.isPending ? (
+          <>
+            <LoadingSpinner className="mr-2 h-4 w-4" />
+            Logging in...
+          </>
+        ) : (
+          "Login"
+        )}
       </Button>
     </form>
   );

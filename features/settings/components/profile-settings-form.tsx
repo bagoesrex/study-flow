@@ -12,6 +12,8 @@ import { useUpdateProfileMutation } from "@/features/settings/hooks/use-update-p
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { FeedbackMessage } from "@/components/common/feedback-message";
+import { LoadingSpinner } from "@/components/common/loading-spinner";
 import type { CurrentUserProfile } from "@/types/settings";
 
 type ProfileSettingsFormProps = {
@@ -95,15 +97,25 @@ export function ProfileSettingsForm({ user }: ProfileSettingsFormProps) {
         </div>
 
         {form.formState.errors.root ? (
-          <p className="text-sm text-rose-600">{form.formState.errors.root.message}</p>
+          <FeedbackMessage
+            variant="error"
+            message={form.formState.errors.root.message ?? "Terjadi kesalahan."}
+          />
         ) : null}
 
         {showSuccess ? (
-          <p className="text-sm text-emerald-600">Profile berhasil diperbarui.</p>
+          <FeedbackMessage variant="success" message="Profile berhasil diperbarui." />
         ) : null}
 
         <Button type="submit" disabled={mutation.isPending}>
-          {mutation.isPending ? "Saving..." : "Save Changes"}
+          {mutation.isPending ? (
+            <>
+              <LoadingSpinner className="mr-2 h-4 w-4" />
+              Saving...
+            </>
+          ) : (
+            "Save Changes"
+          )}
         </Button>
       </form>
     </Card>

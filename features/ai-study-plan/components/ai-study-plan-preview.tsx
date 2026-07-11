@@ -3,10 +3,12 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { FeedbackMessage } from "@/components/common/feedback-message";
+import { LoadingSpinner } from "@/components/common/loading-spinner";
 import { GeneratedTaskList } from "@/features/ai-study-plan/components/generated-task-list";
 import { useSaveGeneratedStudyPlanMutation } from "@/features/ai-study-plan/hooks/use-save-generated-study-plan-mutation";
 import type { AiGeneratedStudyPlan } from "@/types/ai-study-plan";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 type AiStudyPlanPreviewProps = {
@@ -95,13 +97,13 @@ export function AiStudyPlanPreview({ subjectId, generatedPlan }: AiStudyPlanPrev
       </div>
 
       {saveMutation.isError ? (
-        <p className="text-sm text-rose-600">Gagal menyimpan generated study plan.</p>
+        <FeedbackMessage variant="error" message="Gagal menyimpan generated study plan." />
       ) : null}
 
       <Button onClick={handleSave} disabled={saveMutation.isPending}>
         {saveMutation.isPending ? (
           <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <LoadingSpinner className="mr-2 h-4 w-4" />
             Saving...
           </>
         ) : (
