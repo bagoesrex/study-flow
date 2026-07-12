@@ -217,10 +217,6 @@ export function StudySessionCreateForm() {
           ) : null}
         </div>
 
-        {form.formState.errors.root ? (
-          <p className="text-sm text-rose-600">{form.formState.errors.root.message}</p>
-        ) : null}
-
         <Button type="submit" disabled={mutation.isPending} className="w-full">
           {mutation.isPending ? "Creating..." : "Create Study Session"}
         </Button>

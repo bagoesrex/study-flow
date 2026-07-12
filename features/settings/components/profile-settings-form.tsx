@@ -12,7 +12,6 @@ import { useUpdateProfileMutation } from "@/features/settings/hooks/use-update-p
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { FeedbackMessage } from "@/components/common/feedback-message";
 import { LoadingSpinner } from "@/components/common/loading-spinner";
 import type { CurrentUserProfile } from "@/types/settings";
 
@@ -65,8 +64,6 @@ export function ProfileSettingsForm({ user }: ProfileSettingsFormProps) {
     }
   }
 
-  const showSuccess = mutation.isSuccess && mutation.data?.success;
-
   return (
     <Card className="p-6">
       <div className="mb-5">
@@ -95,17 +92,6 @@ export function ProfileSettingsForm({ user }: ProfileSettingsFormProps) {
             <p className="mt-2 text-sm text-rose-600">{form.formState.errors.image.message}</p>
           ) : null}
         </div>
-
-        {form.formState.errors.root ? (
-          <FeedbackMessage
-            variant="error"
-            message={form.formState.errors.root.message ?? "Terjadi kesalahan."}
-          />
-        ) : null}
-
-        {showSuccess ? (
-          <FeedbackMessage variant="success" message="Profile berhasil diperbarui." />
-        ) : null}
 
         <Button type="submit" disabled={mutation.isPending}>
           {mutation.isPending ? (

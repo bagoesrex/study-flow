@@ -12,7 +12,6 @@ import { useSubjectsQuery } from "@/features/subjects/hooks/use-subjects-query";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { FeedbackMessage } from "@/components/common/feedback-message";
 import { LoadingSpinner } from "@/components/common/loading-spinner";
 import Link from "next/link";
 import { Sparkles } from "lucide-react";
@@ -185,13 +184,6 @@ export function AiStudyPlanForm({ onGenerated }: AiStudyPlanFormProps) {
               This is coding/project related
             </label>
           </div>
-
-          {form.formState.errors.root ? (
-            <FeedbackMessage
-              variant="error"
-              message={form.formState.errors.root.message ?? "Terjadi kesalahan."}
-            />
-          ) : null}
 
           <Button type="submit" disabled={generateMutation.isPending} className="w-full">
             {generateMutation.isPending ? (
