@@ -1,36 +1,62 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Reveal } from "@/features/landing/components/reveal";
+
+const trustPoints = ["Free to get started", "No credit card required", "Your data stays private"];
 
 export function FinalCtaSection() {
   return (
-    <section className="border-t border-slate-200 bg-gradient-to-b from-white to-indigo-50/60 py-24">
-      <div className="mx-auto w-full max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-        <h2 className="text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl">
-          Ready to build{" "}
-          <span className="bg-gradient-to-r from-indigo-600 via-violet-600 to-cyan-500 bg-clip-text text-transparent">
-            better study habits
-          </span>
-          ?
-        </h2>
+    <section className="relative isolate overflow-hidden border-t border-slate-200/70">
+      <div className="absolute inset-0 -z-10 bg-slate-950" />
 
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-          Start organizing your learning goals, tasks, and study sessions with StudyFlow.
-        </p>
+      <div className="absolute top-1/2 left-1/2 -z-10 h-[40rem] w-[40rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-indigo-500/10 blur-3xl" />
 
-        <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Button size="lg" asChild>
-            <Link href="/register">
-              Get Started Free
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Button>
+      <div className="absolute -top-40 right-0 -z-10 h-80 w-80 rounded-full bg-cyan-500/10 blur-3xl" />
 
-          <Button variant="secondary" size="lg" asChild>
-            <Link href="/login">Sign In</Link>
-          </Button>
-        </div>
+      <div className="absolute -bottom-40 left-0 -z-10 h-80 w-80 rounded-full bg-violet-500/10 blur-3xl" />
+
+      <div className="mx-auto w-full max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+        <Reveal>
+          <div className="mx-auto max-w-3xl text-center">
+            <h2 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+              Make every study session move you forward.
+            </h2>
+
+            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-400">
+              Turn your goals into structured plans, focused tasks, and progress you can actually
+              see.
+            </p>
+
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Button size="lg" asChild className="bg-white text-slate-950 hover:bg-slate-100">
+                <Link href="/register">
+                  Create Your Study Plan
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+
+              <Button
+                variant="ghost"
+                size="lg"
+                asChild
+                className="text-slate-400 hover:bg-white/10 hover:text-white"
+              >
+                <Link href="/login">Already have an account? Login</Link>
+              </Button>
+            </div>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-x-8 gap-y-2">
+              {trustPoints.map((point) => (
+                <div key={point} className="flex items-center gap-2">
+                  <CheckCircle2 className="h-4 w-4 text-indigo-400" aria-hidden="true" />
+                  <span className="text-sm text-slate-400">{point}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

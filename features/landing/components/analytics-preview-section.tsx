@@ -1,8 +1,12 @@
-import { BarChart3, BookOpen, CheckCircle2, TrendingUp } from "lucide-react";
+"use client";
 
-import { SectionHeader } from "@/components/common/section-header";
+import { BarChart3, BookOpen, CheckCircle2, TrendingUp } from "lucide-react";
+import { m } from "motion/react";
+
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { LandingSection } from "@/features/landing/components/landing-section";
+import { Reveal } from "@/features/landing/components/reveal";
 
 const previewItems = [
   {
@@ -10,7 +14,6 @@ const previewItems = [
     value: "24.5h",
     trend: "+12%",
     icon: TrendingUp,
-    color: "from-indigo-600 to-cyan-400",
   },
   {
     title: "Tasks Completed",
@@ -32,23 +35,49 @@ const previewItems = [
   },
 ];
 
+const chartData = [
+  { day: "Mon", hours: 1.5 },
+  { day: "Tue", hours: 2.5 },
+  { day: "Wed", hours: 1 },
+  { day: "Thu", hours: 3 },
+  { day: "Fri", hours: 2 },
+  { day: "Sat", hours: 2.5 },
+  { day: "Sun", hours: 1.5 },
+];
+
+const subjectData = [
+  { name: "Next.js", hours: "12h", percentage: 48 },
+  { name: "Django", hours: "6.5h", percentage: 26 },
+  { name: "DB Design", hours: "4h", percentage: 16 },
+  { name: "English", hours: "2h", percentage: 10 },
+];
+
 export function AnalyticsPreviewSection() {
   return (
-    <section id="analytics" className="border-t border-slate-200 bg-slate-50 py-20">
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeader
-          eyebrow="Analytics"
-          title="Understand your learning habits"
-          description="Visualize your progress, track study hours, and see where your time goes."
-          align="center"
-        />
+    <LandingSection id="analytics" className="border-t border-slate-200/70 bg-slate-50">
+      <Reveal>
+        <div className="mx-auto max-w-2xl text-center">
+          <span className="inline-flex items-center rounded-full border border-indigo-200/60 bg-indigo-50/80 px-4 py-1.5 text-xs font-medium text-indigo-700">
+            See the pattern behind your progress
+          </span>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {previewItems.map((item) => {
-            const Icon = item.icon;
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            Know what is working—and what needs more focus.
+          </h2>
 
-            return (
-              <Card key={item.title} className="p-6">
+          <p className="mt-4 text-base leading-7 text-slate-500">
+            StudyFlow turns sessions, tasks, and completed plans into clear progress insights.
+          </p>
+        </div>
+      </Reveal>
+
+      <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {previewItems.map((item, index) => {
+          const Icon = item.icon;
+
+          return (
+            <Reveal key={item.title} delay={index * 0.08}>
+              <Card className="p-6 transition hover:-translate-y-0.5 hover:shadow-md">
                 <div className="mb-4 flex items-center justify-between">
                   <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-950 text-white">
                     <Icon className="h-5 w-5" />
@@ -73,41 +102,49 @@ export function AnalyticsPreviewSection() {
                   <p className="mt-2 text-sm text-slate-400">{item.description}</p>
                 ) : null}
               </Card>
-            );
-          })}
-        </div>
+            </Reveal>
+          );
+        })}
+      </div>
 
-        <div className="mt-8 grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
+      <div className="mt-8 grid gap-5 lg:grid-cols-[1.2fr_0.8fr]">
+        <Reveal delay={0.15}>
           <Card className="p-6">
             <h3 className="text-lg font-semibold tracking-tight text-slate-950">
               Weekly Study Distribution
             </h3>
             <div className="mt-6 grid h-64 grid-cols-7 items-end gap-3">
-              {[40, 70, 50, 90, 65, 80, 55].map((height, index) => (
-                <div key={index} className="flex flex-col items-center gap-2">
-                  <div
-                    className="w-full rounded-full bg-gradient-to-t from-indigo-600 to-cyan-400"
-                    style={{ height: `${height}%` }}
-                  />
-                  <span className="text-xs text-slate-400">
-                    {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][index]}
-                  </span>
-                </div>
-              ))}
+              {chartData.map((item, index) => {
+                const height = (item.hours / 3) * 100;
+                return (
+                  <div key={item.day} className="flex flex-col items-center gap-2">
+                    <m.div
+                      initial={{ height: 0 }}
+                      whileInView={{ height: `${height}%` }}
+                      viewport={{ once: true }}
+                      transition={{
+                        duration: 0.6,
+                        delay: 0.2 + index * 0.08,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      className="w-full rounded-full bg-gradient-to-t from-indigo-600 to-cyan-400"
+                      style={{ minHeight: 0 }}
+                    />
+                    <span className="text-xs text-slate-400">{item.day}</span>
+                  </div>
+                );
+              })}
             </div>
           </Card>
+        </Reveal>
 
+        <Reveal delay={0.2}>
           <Card className="p-6">
             <h3 className="text-lg font-semibold tracking-tight text-slate-950">
               Subject Breakdown
             </h3>
             <div className="mt-6 space-y-4">
-              {[
-                { name: "Next.js", hours: "12h", percentage: 48 },
-                { name: "Django", hours: "6.5h", percentage: 26 },
-                { name: "DB Design", hours: "4h", percentage: 16 },
-                { name: "English", hours: "2h", percentage: 10 },
-              ].map((subject) => (
+              {subjectData.map((subject) => (
                 <div key={subject.name}>
                   <div className="mb-2 flex items-center justify-between">
                     <p className="text-sm font-medium text-slate-700">{subject.name}</p>
@@ -118,8 +155,8 @@ export function AnalyticsPreviewSection() {
               ))}
             </div>
           </Card>
-        </div>
+        </Reveal>
       </div>
-    </section>
+    </LandingSection>
   );
 }
