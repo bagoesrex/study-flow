@@ -80,6 +80,7 @@ export async function getTasksAction(): Promise<ActionResponse<TaskItem[]>> {
     const data = await db
       .select({
         id: studyTasks.id,
+        subjectId: subjects.id,
         studyPlanId: studyTasks.studyPlanId,
         studyPlanTitle: studyPlans.title,
         subjectName: subjects.name,

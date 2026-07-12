@@ -4,6 +4,7 @@ export type TaskPriority = "LOW" | "MEDIUM" | "HIGH" | "URGENT";
 
 export type TaskItem = {
   id: string;
+  subjectId: string;
   studyPlanId: string;
   studyPlanTitle: string;
   subjectName: string;
