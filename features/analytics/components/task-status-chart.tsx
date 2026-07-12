@@ -77,7 +77,7 @@ export function TaskStatusChart({ data }: TaskStatusChartProps) {
           </PieChart>
         </ResponsiveContainer>
 
-        <div className="flex items-center gap-6">
+        <div className="flex flex-wrap items-center justify-center gap-4">
           {chartData.map((item) => (
             <div key={item.status} className="flex items-center gap-2">
               <span className="h-3 w-3 rounded-full" style={{ backgroundColor: item.fill }} />

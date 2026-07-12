@@ -1,3 +1,4 @@
+import { DashboardContent } from "@/components/layout/dashboard-content";
 import { DashboardSidebar } from "@/components/layout/dashboard-sidebar";
 import { DashboardTopbar } from "@/components/layout/dashboard-topbar";
 
@@ -12,14 +13,11 @@ type DashboardLayoutProps = {
 export function DashboardLayout({ children, user }: DashboardLayoutProps) {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
-      <div className="flex min-h-screen">
-        <DashboardSidebar />
+      <DashboardSidebar />
 
-        <div className="min-w-0 flex-1">
-          <DashboardTopbar title="Dashboard" description="Your learning overview" user={user} />
-
-          <main className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">{children}</main>
-        </div>
+      <div className="min-w-0 lg:pl-72">
+        <DashboardTopbar user={user} />
+        <DashboardContent>{children}</DashboardContent>
       </div>
     </div>
   );

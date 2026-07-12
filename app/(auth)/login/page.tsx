@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 
 export default function LoginPage() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
+    <main className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-10 sm:px-6">
       <Card className="w-full max-w-md p-8">
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-bold tracking-tight text-slate-950">Login to StudyFlow</h1>

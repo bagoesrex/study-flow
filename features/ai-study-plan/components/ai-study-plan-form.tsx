@@ -85,7 +85,7 @@ export function AiStudyPlanForm({ onGenerated }: AiStudyPlanFormProps) {
           <div>
             <label className="mb-1 block text-sm font-medium text-slate-700">Subject</label>
             <select
-              className="flex h-10 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950 placeholder:text-slate-400"
+              className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-950 transition outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200"
               {...form.register("subjectId")}
             >
               <option value="">Select a subject</option>
@@ -117,7 +117,7 @@ export function AiStudyPlanForm({ onGenerated }: AiStudyPlanFormProps) {
           <div>
             <label className="mb-1 block text-sm font-medium text-slate-700">Difficulty</label>
             <select
-              className="flex h-10 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm text-slate-950"
+              className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-950 transition outline-none focus:border-slate-400 focus:ring-2 focus:ring-slate-200"
               {...form.register("difficulty")}
             >
               <option value="BEGINNER">Beginner</option>

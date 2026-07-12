@@ -22,14 +22,14 @@ export function DashboardNavItem({ label, href, icon, onClick }: DashboardNavIte
       href={href}
       onClick={onClick}
       className={cn(
-        "flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition",
+        "flex min-h-11 items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium transition",
         isActive
           ? "bg-slate-950 text-white shadow-sm"
           : "text-slate-600 hover:bg-slate-100 hover:text-slate-950"
       )}
     >
-      {icon}
-      {label}
+      <span className="shrink-0">{icon}</span>
+      <span className="truncate">{label}</span>
     </Link>
   );
 }

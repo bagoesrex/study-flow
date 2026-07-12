@@ -24,8 +24,8 @@ export function SubjectCard({ subject }: SubjectCardProps) {
   }
 
   return (
-    <Card className="p-6">
-      <div className="flex items-start justify-between gap-4">
+    <Card className="p-5 sm:p-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <div className="mb-3 flex items-center gap-3">
             <span
@@ -38,7 +38,7 @@ export function SubjectCard({ subject }: SubjectCardProps) {
             </h3>
           </div>
 
-          <p className="text-sm leading-6 text-slate-500">
+          <p className="line-clamp-2 text-sm leading-6 text-slate-500">
             {subject.description ?? "No description"}
           </p>
         </div>
@@ -50,7 +50,7 @@ export function SubjectCard({ subject }: SubjectCardProps) {
         )}
       </div>
 
-      <div className="mt-5 flex items-center justify-between gap-3">
+      <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm text-slate-500">
           Target:{" "}
           <span className="font-medium text-slate-950">

@@ -35,7 +35,7 @@ export function SubjectDeleteDialog({ subject }: SubjectDeleteDialogProps) {
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-sm" />
 
-        <Dialog.Content className="fixed inset-1/2 z-50 h-fit w-full max-w-md -translate-x-1/2 -translate-y-1/2 rounded-3xl border border-slate-200 bg-white p-6 shadow-xl">
+        <Dialog.Content className="fixed top-1/2 left-1/2 z-50 max-h-[calc(100vh-2rem)] w-[calc(100vw-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 overflow-y-auto rounded-3xl border border-slate-200 bg-white p-5 shadow-xl sm:p-6">
           <div className="mb-6 flex items-center justify-between">
             <Dialog.Title className="text-lg font-semibold tracking-tight text-slate-950">
               Delete Subject
@@ -58,9 +58,9 @@ export function SubjectDeleteDialog({ subject }: SubjectDeleteDialogProps) {
             subject ini.
           </p>
 
-          <div className="mt-6 flex items-center justify-end gap-3">
+          <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
             <Dialog.Close asChild>
-              <Button type="button" variant="secondary">
+              <Button type="button" variant="secondary" className="w-full sm:w-auto">
                 Cancel
               </Button>
             </Dialog.Close>
@@ -70,7 +70,7 @@ export function SubjectDeleteDialog({ subject }: SubjectDeleteDialogProps) {
               variant="primary"
               disabled={mutation.isPending}
               onClick={handleDelete}
-              className="bg-rose-600 hover:bg-rose-700 focus-visible:ring-rose-600"
+              className="w-full bg-rose-600 hover:bg-rose-700 focus-visible:ring-rose-600 sm:w-auto"
             >
               {mutation.isPending ? "Deleting..." : "Delete"}
             </Button>

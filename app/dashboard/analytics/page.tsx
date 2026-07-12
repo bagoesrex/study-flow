@@ -9,19 +9,15 @@ import { WeeklyStudyHoursChart } from "@/features/analytics/components/weekly-st
 import { useAnalyticsQuery } from "@/features/analytics/hooks/use-analytics-query";
 import { CardGridSkeleton } from "@/components/skeletons/card-grid-skeleton";
 import { ErrorState } from "@/components/common/error-state";
+import { PageHeader } from "@/components/common/page-header";
 
 export default function AnalyticsPage() {
   const query = useAnalyticsQuery();
 
   if (query.isLoading) {
     return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-950">Analytics</h1>
-          <p className="mt-2 text-sm text-slate-500">
-            Review your study progress and productivity.
-          </p>
-        </div>
+      <div className="space-y-6 lg:space-y-8">
+        <PageHeader title="Analytics" description="Review your study progress and productivity." />
 
         <CardGridSkeleton count={6} className="md:grid-cols-2 xl:grid-cols-3" />
 
@@ -31,7 +27,12 @@ export default function AnalyticsPage() {
   }
 
   if (query.isError) {
-    return <ErrorState onRetry={() => query.refetch()} />;
+    return (
+      <div className="space-y-6 lg:space-y-8">
+        <PageHeader title="Analytics" description="Review your study progress and productivity." />
+        <ErrorState onRetry={() => query.refetch()} />
+      </div>
+    );
   }
 
   const data = query.data!;
@@ -43,13 +44,8 @@ export default function AnalyticsPage() {
 
   if (hasNoData) {
     return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-950">Analytics</h1>
-          <p className="mt-2 text-sm text-slate-500">
-            Review your study progress and productivity.
-          </p>
-        </div>
+      <div className="space-y-6 lg:space-y-8">
+        <PageHeader title="Analytics" description="Review your study progress and productivity." />
 
         <AnalyticsEmptyState />
       </div>
@@ -57,13 +53,11 @@ export default function AnalyticsPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold tracking-tight text-slate-950">Analytics</h1>
-        <p className="mt-2 text-sm text-slate-500">
-          Review your study progress, task completion, and learning activity.
-        </p>
-      </div>
+    <div className="space-y-6 lg:space-y-8">
+      <PageHeader
+        title="Analytics"
+        description="Review your study progress, task completion, and learning activity."
+      />
 
       <AnalyticsOverviewCards overview={data.overview} />
 

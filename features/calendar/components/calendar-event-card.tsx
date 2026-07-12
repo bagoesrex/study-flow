@@ -25,11 +25,11 @@ function getEventHref(event: CalendarEventItem) {
 export function CalendarEventCard({ event }: CalendarEventCardProps) {
   return (
     <Card className="p-5">
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <div className="mb-2 flex flex-wrap items-center gap-2">
             <span
-              className="h-3 w-3 rounded-full"
+              className="h-3 w-3 shrink-0 rounded-full"
               style={{ backgroundColor: event.subjectColor }}
             />
 
