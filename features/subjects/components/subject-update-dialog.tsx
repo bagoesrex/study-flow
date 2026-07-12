@@ -1,8 +1,7 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { Pencil, X } from "lucide-react";
-import { useState } from "react";
+import { X } from "lucide-react";
 
 import { SubjectUpdateForm } from "@/features/subjects/components/subject-update-form";
 import type { SubjectItem } from "@/types/subject";
@@ -10,19 +9,17 @@ import { Button } from "@/components/ui/button";
 
 type SubjectUpdateDialogProps = {
   subject: SubjectItem;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 };
 
-export function SubjectUpdateDialog({ subject }: SubjectUpdateDialogProps) {
-  const [open, setOpen] = useState(false);
-
+export function SubjectUpdateDialog({
+  subject,
+  open: controlledOpen,
+  onOpenChange: controlledOnOpenChange,
+}: SubjectUpdateDialogProps) {
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger asChild>
-        <Button type="button" variant="outline" size="sm">
-          <Pencil className="h-4 w-4" />
-        </Button>
-      </Dialog.Trigger>
-
+    <Dialog.Root open={controlledOpen} onOpenChange={controlledOnOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-sm" />
 
@@ -39,7 +36,7 @@ export function SubjectUpdateDialog({ subject }: SubjectUpdateDialogProps) {
             </Dialog.Close>
           </div>
 
-          <SubjectUpdateForm subject={subject} onSuccess={() => setOpen(false)} />
+          <SubjectUpdateForm subject={subject} onSuccess={() => controlledOnOpenChange?.(false)} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

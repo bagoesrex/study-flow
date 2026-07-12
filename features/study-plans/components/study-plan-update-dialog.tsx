@@ -1,8 +1,7 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { Pencil, X } from "lucide-react";
-import { useState } from "react";
+import { X } from "lucide-react";
 
 import { StudyPlanUpdateForm } from "@/features/study-plans/components/study-plan-update-form";
 import type { StudyPlanItem } from "@/types/study-plan";
@@ -10,19 +9,17 @@ import { Button } from "@/components/ui/button";
 
 type StudyPlanUpdateDialogProps = {
   plan: StudyPlanItem;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 };
 
-export function StudyPlanUpdateDialog({ plan }: StudyPlanUpdateDialogProps) {
-  const [open, setOpen] = useState(false);
-
+export function StudyPlanUpdateDialog({
+  plan,
+  open: controlledOpen,
+  onOpenChange: controlledOnOpenChange,
+}: StudyPlanUpdateDialogProps) {
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger asChild>
-        <Button type="button" variant="outline" size="sm">
-          <Pencil className="h-4 w-4" />
-        </Button>
-      </Dialog.Trigger>
-
+    <Dialog.Root open={controlledOpen} onOpenChange={controlledOnOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-sm" />
 
@@ -39,7 +36,7 @@ export function StudyPlanUpdateDialog({ plan }: StudyPlanUpdateDialogProps) {
             </Dialog.Close>
           </div>
 
-          <StudyPlanUpdateForm plan={plan} onSuccess={() => setOpen(false)} />
+          <StudyPlanUpdateForm plan={plan} onSuccess={() => controlledOnOpenChange?.(false)} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

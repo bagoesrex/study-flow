@@ -1,26 +1,24 @@
 "use client";
 
+import { BookOpen, Pencil, Trash2 } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+
 import type { StudyPlanItem } from "@/types/study-plan";
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { SurfaceCard } from "@/components/common/surface-card";
+import { ActionMenu } from "@/components/common/action-menu";
+import { StatusBadge, getStatusVariant } from "@/components/common/status-indicator";
 import { StudyPlanDeleteDialog } from "@/features/study-plans/components/study-plan-delete-dialog";
 import { StudyPlanUpdateDialog } from "@/features/study-plans/components/study-plan-update-dialog";
 import {
   getProgressDescription,
   getProgressLabel,
 } from "@/features/study-plans/utils/study-plan-progress";
+import { Button } from "@/components/ui/button";
 
 type StudyPlanCardProps = {
   plan: StudyPlanItem;
-};
-
-const statusVariant: Record<string, "default" | "success" | "warning" | "danger" | "info"> = {
-  NOT_STARTED: "default",
-  IN_PROGRESS: "info",
-  COMPLETED: "success",
-  PAUSED: "warning",
-  CANCELLED: "danger",
 };
 
 const statusLabel: Record<string, string> = {
@@ -29,13 +27,6 @@ const statusLabel: Record<string, string> = {
   COMPLETED: "Completed",
   PAUSED: "Paused",
   CANCELLED: "Cancelled",
-};
-
-const priorityVariant: Record<string, "default" | "success" | "warning" | "danger" | "info"> = {
-  LOW: "default",
-  MEDIUM: "info",
-  HIGH: "warning",
-  URGENT: "danger",
 };
 
 function formatDate(date: string | null) {
@@ -49,76 +40,105 @@ function formatDate(date: string | null) {
 }
 
 export function StudyPlanCard({ plan }: StudyPlanCardProps) {
+  const [updateOpen, setUpdateOpen] = useState(false);
+  const [deleteOpen, setDeleteOpen] = useState(false);
+
   return (
-    <Card className="p-5 sm:p-6">
-      <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="min-w-0">
-          <div className="mb-2 flex items-center gap-2">
-            <span
-              className="h-3 w-3 shrink-0 rounded-full"
-              style={{ backgroundColor: plan.subjectColor }}
-            />
-            <span className="text-sm font-medium text-slate-500">{plan.subjectName}</span>
+    <>
+      <SurfaceCard className="p-5 sm:p-6">
+        <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0">
+            <div className="mb-2 flex items-center gap-2">
+              <span
+                className="h-3 w-3 shrink-0 rounded-full"
+                style={{ backgroundColor: plan.subjectColor }}
+              />
+              <span className="text-sm font-medium text-slate-500">{plan.subjectName}</span>
+            </div>
+
+            <h3 className="truncate text-lg font-semibold tracking-tight text-slate-950">
+              {plan.title}
+            </h3>
           </div>
 
-          <h3 className="truncate text-lg font-semibold tracking-tight text-slate-950">
-            {plan.title}
-          </h3>
+          <div className="flex shrink-0 flex-wrap items-center gap-2">
+            <StatusBadge variant={getStatusVariant(plan.status)}>
+              {statusLabel[plan.status] ?? plan.status}
+            </StatusBadge>
+
+            <StatusBadge variant={getStatusVariant(plan.priority)}>{plan.priority}</StatusBadge>
+
+            <ActionMenu
+              label="Study plan actions"
+              items={[
+                {
+                  label: "Edit",
+                  icon: Pencil,
+                  onSelect: () => setUpdateOpen(true),
+                },
+                {
+                  label: "Delete",
+                  icon: Trash2,
+                  onSelect: () => setDeleteOpen(true),
+                  destructive: true,
+                },
+              ]}
+            />
+          </div>
         </div>
 
-        <div className="flex shrink-0 flex-wrap items-center gap-2">
-          <Badge variant={statusVariant[plan.status] ?? "default"}>
-            {statusLabel[plan.status] ?? plan.status}
-          </Badge>
-
-          <Badge variant={priorityVariant[plan.priority] ?? "default"}>{plan.priority}</Badge>
-        </div>
-      </div>
-
-      {plan.description ? (
-        <p className="mb-3 line-clamp-2 text-sm leading-6 text-slate-500">{plan.description}</p>
-      ) : null}
-
-      {plan.goal ? (
-        <p className="mb-3 line-clamp-3 text-sm text-slate-500">
-          <span className="font-medium text-slate-700">Goal:</span> {plan.goal}
-        </p>
-      ) : null}
-
-      <div className="mb-5 flex flex-wrap gap-4 text-sm text-slate-500">
-        {plan.startDate || plan.endDate ? (
-          <span>
-            📅 {formatDate(plan.startDate) ?? "—"} → {formatDate(plan.endDate) ?? "—"}
-          </span>
+        {plan.description ? (
+          <p className="mb-3 line-clamp-2 text-sm leading-6 text-slate-500">{plan.description}</p>
         ) : null}
 
-        {plan.estimatedHours ? <span>⏱ {plan.estimatedHours}h estimated</span> : null}
-      </div>
+        {plan.goal ? (
+          <p className="mb-3 line-clamp-3 text-sm text-slate-500">
+            <span className="font-medium text-slate-700">Goal:</span> {plan.goal}
+          </p>
+        ) : null}
 
-      <div className="my-5">
-        <div className="mb-2 flex items-center justify-between gap-4">
-          <div className="min-w-0">
-            <p className="truncate text-sm font-medium text-slate-950">
-              {getProgressLabel(plan.progress)}
-            </p>
-            <p className="text-xs text-slate-500">
-              {getProgressDescription({
-                completedTasks: plan.completedTasks,
-                totalTasks: plan.totalTasks,
-              })}
-            </p>
-          </div>
+        <div className="mb-5 flex flex-wrap gap-4 text-sm text-slate-500">
+          {plan.startDate || plan.endDate ? (
+            <span>
+              {formatDate(plan.startDate) ?? "—"} → {formatDate(plan.endDate) ?? "—"}
+            </span>
+          ) : null}
 
-          <p className="shrink-0 text-sm font-semibold text-slate-950">{plan.progress}%</p>
+          {plan.estimatedHours ? <span>{plan.estimatedHours}h estimated</span> : null}
         </div>
 
-        <Progress value={plan.progress} />
-      </div>
+        <div className="my-5">
+          <div className="mb-2 flex items-center justify-between gap-4">
+            <div className="min-w-0">
+              <p className="truncate text-sm font-medium text-slate-950">
+                {getProgressLabel(plan.progress)}
+              </p>
+              <p className="text-xs text-slate-500">
+                {getProgressDescription({
+                  completedTasks: plan.completedTasks,
+                  totalTasks: plan.totalTasks,
+                })}
+              </p>
+            </div>
 
-      <div className="grid grid-cols-2 gap-2 border-t border-slate-100 pt-4 sm:flex sm:justify-end">
-        <StudyPlanUpdateDialog plan={plan} />
-        <StudyPlanDeleteDialog plan={plan} />
-      </div>
-    </Card>
+            <p className="shrink-0 text-sm font-semibold text-slate-950">{plan.progress}%</p>
+          </div>
+
+          <Progress value={plan.progress} />
+        </div>
+
+        <div className="flex border-t border-slate-100 pt-4 sm:justify-end">
+          <Button asChild variant="outline" size="sm">
+            <Link href={`/dashboard/tasks?studyPlanId=${plan.id}`}>
+              <BookOpen className="mr-1.5 h-4 w-4" />
+              View Tasks
+            </Link>
+          </Button>
+        </div>
+      </SurfaceCard>
+
+      <StudyPlanUpdateDialog plan={plan} open={updateOpen} onOpenChange={setUpdateOpen} />
+      <StudyPlanDeleteDialog plan={plan} open={deleteOpen} onOpenChange={setDeleteOpen} />
+    </>
   );
 }

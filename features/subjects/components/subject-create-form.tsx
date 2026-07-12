@@ -7,9 +7,12 @@ import { subjectSchema, type SubjectInput } from "@/features/subjects/schemas/su
 import { useCreateSubjectMutation } from "@/features/subjects/hooks/use-create-subject-mutation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
 
-export function SubjectCreateForm() {
+type SubjectCreateFormProps = {
+  onSuccess?: () => void;
+};
+
+export function SubjectCreateForm({ onSuccess }: SubjectCreateFormProps) {
   const mutation = useCreateSubjectMutation();
 
   const form = useForm<SubjectInput>({
@@ -39,13 +42,14 @@ export function SubjectCreateForm() {
       color: "#4F46E5",
       targetHours: "",
     });
+
+    onSuccess?.();
   }
 
   return (
-    <Card className="p-6">
-      <div className="mb-5">
-        <h2 className="text-lg font-semibold tracking-tight text-slate-950">Create Subject</h2>
-        <p className="mt-1 text-sm text-slate-500">Tambahkan kategori belajar baru.</p>
+    <div className="space-y-4">
+      <div>
+        <p className="text-sm text-slate-500">Tambahkan kategori belajar baru.</p>
       </div>
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -87,6 +91,6 @@ export function SubjectCreateForm() {
           {mutation.isPending ? "Creating..." : "Create Subject"}
         </Button>
       </form>
-    </Card>
+    </div>
   );
 }

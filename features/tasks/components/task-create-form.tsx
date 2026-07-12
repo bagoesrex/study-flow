@@ -9,9 +9,12 @@ import { useCreateTaskMutation } from "@/features/tasks/hooks/use-create-task-mu
 import { useStudyPlansQuery } from "@/features/study-plans/hooks/use-study-plans-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
 
-export function TaskCreateForm() {
+type TaskCreateFormProps = {
+  onSuccess?: () => void;
+};
+
+export function TaskCreateForm({ onSuccess }: TaskCreateFormProps) {
   const mutation = useCreateTaskMutation();
   const studyPlansQuery = useStudyPlansQuery();
 
@@ -51,17 +54,18 @@ export function TaskCreateForm() {
       dueDate: "",
       position: "",
     });
+
+    onSuccess?.();
   }
 
   if (!hasStudyPlans) {
     return (
-      <Card className="p-6">
-        <div className="mb-5">
-          <h2 className="text-lg font-semibold tracking-tight text-slate-950">Create Task</h2>
-          <p className="mt-1 text-sm text-slate-500">Buat task baru untuk study plan kamu.</p>
+      <div className="space-y-4">
+        <div>
+          <p className="text-sm text-slate-500">Buat task baru untuk study plan kamu.</p>
         </div>
 
-        <Card className="bg-slate-50 p-5 text-center">
+        <div className="rounded-2xl bg-slate-50 p-5 text-center">
           <p className="text-sm text-slate-600">
             Belum ada study plan.{" "}
             <Link
@@ -72,16 +76,15 @@ export function TaskCreateForm() {
             </Link>{" "}
             terlebih dahulu sebelum membuat task.
           </p>
-        </Card>
-      </Card>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Card className="p-6">
-      <div className="mb-5">
-        <h2 className="text-lg font-semibold tracking-tight text-slate-950">Create Task</h2>
-        <p className="mt-1 text-sm text-slate-500">Buat task baru untuk study plan kamu.</p>
+    <div className="space-y-4">
+      <div>
+        <p className="text-sm text-slate-500">Buat task baru untuk study plan kamu.</p>
       </div>
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -173,6 +176,6 @@ export function TaskCreateForm() {
           {mutation.isPending ? "Creating..." : "Create Task"}
         </Button>
       </form>
-    </Card>
+    </div>
   );
 }

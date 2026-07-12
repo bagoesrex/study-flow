@@ -10,6 +10,7 @@ import { useAnalyticsQuery } from "@/features/analytics/hooks/use-analytics-quer
 import { CardGridSkeleton } from "@/components/skeletons/card-grid-skeleton";
 import { ErrorState } from "@/components/common/error-state";
 import { PageHeader } from "@/components/common/page-header";
+import { SectionHeader } from "@/components/common/section-header";
 
 export default function AnalyticsPage() {
   const query = useAnalyticsQuery();
@@ -59,17 +60,43 @@ export default function AnalyticsPage() {
         description="Review your study progress, task completion, and learning activity."
       />
 
+      <p className="text-sm text-slate-500">Showing data from your entire learning history.</p>
+
       <AnalyticsOverviewCards overview={data.overview} />
 
-      <div className="grid gap-6 xl:grid-cols-2">
-        <WeeklyStudyHoursChart data={data.weeklyStudyHours} />
-        <StudyHoursBySubjectChart data={data.studyHoursBySubject} />
-      </div>
+      <section>
+        <SectionHeader
+          title="Weekly Study Trend"
+          description="Your study hours over the past weeks."
+        />
+        <div className="mt-4">
+          <WeeklyStudyHoursChart data={data.weeklyStudyHours} />
+        </div>
+      </section>
 
-      <div className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
-        <TaskStatusChart data={data.taskStatusDistribution} />
-        <RecentStudySessionsCard sessions={data.recentStudySessions} />
-      </div>
+      <section>
+        <SectionHeader
+          title="Subject Distribution"
+          description="Study hours broken down by subject."
+        />
+        <div className="mt-4">
+          <StudyHoursBySubjectChart data={data.studyHoursBySubject} />
+        </div>
+      </section>
+
+      <section>
+        <SectionHeader title="Task Completion" description="Task status distribution." />
+        <div className="mt-4">
+          <TaskStatusChart data={data.taskStatusDistribution} />
+        </div>
+      </section>
+
+      <section>
+        <SectionHeader title="Recent Sessions" description="Your latest study activity." />
+        <div className="mt-4">
+          <RecentStudySessionsCard sessions={data.recentStudySessions} />
+        </div>
+      </section>
     </div>
   );
 }

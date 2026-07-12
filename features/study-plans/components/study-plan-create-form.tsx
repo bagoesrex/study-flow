@@ -12,9 +12,12 @@ import { useCreateStudyPlanMutation } from "@/features/study-plans/hooks/use-cre
 import { useSubjectsQuery } from "@/features/subjects/hooks/use-subjects-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
 
-export function StudyPlanCreateForm() {
+type StudyPlanCreateFormProps = {
+  onSuccess?: () => void;
+};
+
+export function StudyPlanCreateForm({ onSuccess }: StudyPlanCreateFormProps) {
   const mutation = useCreateStudyPlanMutation();
   const subjectsQuery = useSubjectsQuery();
 
@@ -58,17 +61,18 @@ export function StudyPlanCreateForm() {
       priority: "MEDIUM",
       estimatedHours: "",
     });
+
+    onSuccess?.();
   }
 
   if (!hasSubjects) {
     return (
-      <Card className="p-6">
-        <div className="mb-5">
-          <h2 className="text-lg font-semibold tracking-tight text-slate-950">Create Study Plan</h2>
-          <p className="mt-1 text-sm text-slate-500">Buat rencana belajar baru.</p>
+      <div className="space-y-4">
+        <div>
+          <p className="text-sm text-slate-500">Buat rencana belajar baru.</p>
         </div>
 
-        <Card className="bg-slate-50 p-5 text-center">
+        <div className="rounded-2xl bg-slate-50 p-5 text-center">
           <p className="text-sm text-slate-600">
             Belum ada subject.{" "}
             <Link
@@ -79,16 +83,15 @@ export function StudyPlanCreateForm() {
             </Link>{" "}
             terlebih dahulu sebelum membuat study plan.
           </p>
-        </Card>
-      </Card>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Card className="p-6">
-      <div className="mb-5">
-        <h2 className="text-lg font-semibold tracking-tight text-slate-950">Create Study Plan</h2>
-        <p className="mt-1 text-sm text-slate-500">Buat rencana belajar baru.</p>
+    <div className="space-y-4">
+      <div>
+        <p className="text-sm text-slate-500">Buat rencana belajar baru.</p>
       </div>
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -205,6 +208,6 @@ export function StudyPlanCreateForm() {
           {mutation.isPending ? "Creating..." : "Create Study Plan"}
         </Button>
       </form>
-    </Card>
+    </div>
   );
 }

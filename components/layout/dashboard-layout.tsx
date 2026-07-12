@@ -13,7 +13,7 @@ type DashboardLayoutProps = {
 export function DashboardLayout({ children, user }: DashboardLayoutProps) {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-950">
-      <DashboardSidebar />
+      <DashboardSidebar user={user} />
 
       <div className="min-w-0 lg:pl-72">
         <DashboardTopbar user={user} />

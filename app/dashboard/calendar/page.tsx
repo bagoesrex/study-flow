@@ -16,7 +16,7 @@ export default async function CalendarPage() {
         />
         <div className="rounded-2xl border border-slate-200 p-6 text-center">
           <p className="text-sm text-slate-500">
-            Gagal memuat calendar. Silakan refresh halaman atau coba lagi nanti.
+            Failed to load calendar. Please refresh or try again later.
           </p>
         </div>
       </div>

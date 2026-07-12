@@ -1,24 +1,26 @@
 import { getDashboardDataAction } from "@/actions/dashboard";
-import { ActivePlanProgressCard } from "@/features/dashboard/components/active-plan-progress-card";
+import { getTodayFocusAction, getUpcomingDeadlinesAction } from "@/actions/dashboard-today-focus";
 import { DashboardEmptyState } from "@/features/dashboard/components/dashboard-empty-state";
 import { DashboardOverviewCards } from "@/features/dashboard/components/dashboard-overview-cards";
-import { RecentSessionsCard } from "@/features/dashboard/components/recent-sessions-card";
-import { RecentTasksCard } from "@/features/dashboard/components/recent-tasks-card";
-import { PageHeader } from "@/components/common/page-header";
+import { DashboardGreeting } from "@/features/dashboard/components/dashboard-greeting";
+import { DashboardTodayFocus } from "@/features/dashboard/components/dashboard-today-focus";
+import { DashboardQuickActions } from "@/features/dashboard/components/dashboard-quick-actions";
+import { ActiveStudyPlansCard } from "@/features/dashboard/components/active-study-plans-card";
+import { UpcomingDeadlinesCard } from "@/features/dashboard/components/upcoming-deadlines-card";
+import { RecentActivityCard } from "@/features/dashboard/components/recent-activity-card";
+import { auth } from "@/auth";
 
 export default async function DashboardPage() {
+  const session = await auth();
   const result = await getDashboardDataAction();
 
   if (!result.success || !result.data) {
     return (
       <div className="space-y-6">
-        <PageHeader
-          title="Dashboard"
-          description="Overview of your study progress, tasks, and recent learning activity."
-        />
+        <DashboardGreeting name={session?.user?.name} />
         <div className="rounded-2xl border border-slate-200 p-6 text-center">
           <p className="text-sm text-slate-500">
-            Gagal memuat dashboard. Silakan refresh halaman atau coba lagi nanti.
+            Failed to load dashboard. Please refresh or try again later.
           </p>
         </div>
       </div>
@@ -35,30 +37,37 @@ export default async function DashboardPage() {
   if (hasNoData) {
     return (
       <div className="space-y-6 lg:space-y-8">
-        <PageHeader
-          title="Dashboard"
-          description="Welcome to StudyFlow. Start organizing your learning progress."
-        />
+        <DashboardGreeting name={session?.user?.name} />
         <DashboardEmptyState />
       </div>
     );
   }
 
+  const [focusResult, deadlinesResult] = await Promise.all([
+    getTodayFocusAction(),
+    getUpcomingDeadlinesAction(),
+  ]);
+
+  const focusTasks = focusResult.success && focusResult.data ? focusResult.data : [];
+  const deadlineTasks = deadlinesResult.success && deadlinesResult.data ? deadlinesResult.data : [];
+
   return (
     <div className="space-y-6 lg:space-y-8">
-      <PageHeader
-        title="Dashboard"
-        description="Overview of your study progress, tasks, and recent learning activity."
-      />
+      <DashboardGreeting name={session?.user?.name} />
 
       <DashboardOverviewCards overview={data.overview} />
 
-      <div className="grid gap-6 2xl:grid-cols-[1.1fr_0.9fr]">
-        <ActivePlanProgressCard plans={data.activePlanProgress} />
-        <RecentSessionsCard sessions={data.recentSessions} />
+      <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+        <DashboardTodayFocus tasks={focusTasks} />
+        <DashboardQuickActions />
       </div>
 
-      <RecentTasksCard tasks={data.recentTasks} />
+      <div className="grid gap-6 xl:grid-cols-2">
+        <ActiveStudyPlansCard plans={data.activePlanProgress} />
+        <UpcomingDeadlinesCard tasks={deadlineTasks} />
+      </div>
+
+      <RecentActivityCard tasks={data.recentTasks} sessions={data.recentSessions} />
     </div>
   );
 }

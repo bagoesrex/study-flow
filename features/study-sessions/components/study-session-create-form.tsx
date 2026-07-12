@@ -14,9 +14,12 @@ import { useStudyPlansQuery } from "@/features/study-plans/hooks/use-study-plans
 import { useTasksQuery } from "@/features/tasks/hooks/use-tasks-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
 
-export function StudySessionCreateForm() {
+type StudySessionCreateFormProps = {
+  onSuccess?: () => void;
+};
+
+export function StudySessionCreateForm({ onSuccess }: StudySessionCreateFormProps) {
   const mutation = useCreateStudySessionMutation();
   const subjectsQuery = useSubjectsQuery();
   const studyPlansQuery = useStudyPlansQuery();
@@ -67,19 +70,18 @@ export function StudySessionCreateForm() {
       startedAt: defaultStartedAt,
       endedAt: "",
     });
+
+    onSuccess?.();
   }
 
   if (!hasSubjects) {
     return (
-      <Card className="p-6">
-        <div className="mb-5">
-          <h2 className="text-lg font-semibold tracking-tight text-slate-950">
-            Create Study Session
-          </h2>
-          <p className="mt-1 text-sm text-slate-500">Catat sesi belajar baru.</p>
+      <div className="space-y-4">
+        <div>
+          <p className="text-sm text-slate-500">Catat sesi belajar baru.</p>
         </div>
 
-        <Card className="bg-slate-50 p-5 text-center">
+        <div className="rounded-2xl bg-slate-50 p-5 text-center">
           <p className="text-sm text-slate-600">
             Belum ada subject.{" "}
             <Link
@@ -90,18 +92,15 @@ export function StudySessionCreateForm() {
             </Link>{" "}
             terlebih dahulu sebelum mencatat study session.
           </p>
-        </Card>
-      </Card>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Card className="p-6">
-      <div className="mb-5">
-        <h2 className="text-lg font-semibold tracking-tight text-slate-950">
-          Create Study Session
-        </h2>
-        <p className="mt-1 text-sm text-slate-500">Catat sesi belajar baru.</p>
+    <div className="space-y-4">
+      <div>
+        <p className="text-sm text-slate-500">Catat sesi belajar baru.</p>
       </div>
 
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -221,6 +220,6 @@ export function StudySessionCreateForm() {
           {mutation.isPending ? "Creating..." : "Create Study Session"}
         </Button>
       </form>
-    </Card>
+    </div>
   );
 }

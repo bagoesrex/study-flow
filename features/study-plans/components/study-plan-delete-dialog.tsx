@@ -1,8 +1,7 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { Trash2, X } from "lucide-react";
-import { useState } from "react";
+import { X } from "lucide-react";
 
 import { useDeleteStudyPlanMutation } from "@/features/study-plans/hooks/use-delete-study-plan-mutation";
 import type { StudyPlanItem } from "@/types/study-plan";
@@ -10,28 +9,27 @@ import { Button } from "@/components/ui/button";
 
 type StudyPlanDeleteDialogProps = {
   plan: StudyPlanItem;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 };
 
-export function StudyPlanDeleteDialog({ plan }: StudyPlanDeleteDialogProps) {
-  const [open, setOpen] = useState(false);
+export function StudyPlanDeleteDialog({
+  plan,
+  open: controlledOpen,
+  onOpenChange: controlledOnOpenChange,
+}: StudyPlanDeleteDialogProps) {
   const mutation = useDeleteStudyPlanMutation();
 
   async function handleDelete() {
     const result = await mutation.mutateAsync({ id: plan.id });
 
     if (result.success) {
-      setOpen(false);
+      controlledOnOpenChange?.(false);
     }
   }
 
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger asChild>
-        <Button type="button" variant="outline" size="sm">
-          <Trash2 className="h-4 w-4" />
-        </Button>
-      </Dialog.Trigger>
-
+    <Dialog.Root open={controlledOpen} onOpenChange={controlledOnOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-sm" />
 

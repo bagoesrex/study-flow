@@ -1,5 +1,5 @@
 import { PageHeader } from "@/components/common/page-header";
-import { StudySessionCreateForm } from "@/features/study-sessions/components/study-session-create-form";
+import { StudySessionCreateDialog } from "@/features/study-sessions/components/study-session-create-dialog";
 import { StudySessionList } from "@/features/study-sessions/components/study-session-list";
 
 export default function SessionsPage() {
@@ -8,17 +8,10 @@ export default function SessionsPage() {
       <PageHeader
         title="Study Sessions"
         description="Catat durasi belajar, mood, catatan, dan aktivitas belajar harian kamu."
+        actions={<StudySessionCreateDialog />}
       />
 
-      <div className="grid gap-6 xl:grid-cols-[minmax(320px,420px)_minmax(0,1fr)] xl:items-start">
-        <div className="xl:sticky xl:top-24">
-          <StudySessionCreateForm />
-        </div>
-
-        <div className="min-w-0">
-          <StudySessionList />
-        </div>
-      </div>
+      <StudySessionList />
     </div>
   );
 }

@@ -1,8 +1,7 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { Pencil, X } from "lucide-react";
-import { useState } from "react";
+import { X } from "lucide-react";
 
 import { StudySessionUpdateForm } from "@/features/study-sessions/components/study-session-update-form";
 import type { StudySessionItem } from "@/types/study-session";
@@ -10,19 +9,17 @@ import { Button } from "@/components/ui/button";
 
 type StudySessionUpdateDialogProps = {
   session: StudySessionItem;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 };
 
-export function StudySessionUpdateDialog({ session }: StudySessionUpdateDialogProps) {
-  const [open, setOpen] = useState(false);
-
+export function StudySessionUpdateDialog({
+  session,
+  open: controlledOpen,
+  onOpenChange: controlledOnOpenChange,
+}: StudySessionUpdateDialogProps) {
   return (
-    <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger asChild>
-        <Button type="button" variant="outline" size="sm">
-          <Pencil className="h-4 w-4" />
-        </Button>
-      </Dialog.Trigger>
-
+    <Dialog.Root open={controlledOpen} onOpenChange={controlledOnOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-slate-950/40 backdrop-blur-sm" />
 
@@ -39,7 +36,10 @@ export function StudySessionUpdateDialog({ session }: StudySessionUpdateDialogPr
             </Dialog.Close>
           </div>
 
-          <StudySessionUpdateForm session={session} onSuccess={() => setOpen(false)} />
+          <StudySessionUpdateForm
+            session={session}
+            onSuccess={() => controlledOnOpenChange?.(false)}
+          />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
