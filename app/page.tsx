@@ -1,3 +1,5 @@
+import { connection } from "next/server";
+
 import { MarketingShell } from "@/components/layout/marketing-shell";
 import { AnalyticsPreviewSection } from "@/features/landing/components/analytics-preview-section";
 import { FeatureBentoSection } from "@/features/landing/components/feature-bento-section";
@@ -12,6 +14,7 @@ import { getLandingStats } from "@/features/landing/queries/get-landing-stats";
 import { getPublishedTestimonials } from "@/features/landing/queries/get-published-testimonials";
 
 export default async function HomePage() {
+  await connection();
   const [stats, testimonials] = await Promise.all([getLandingStats(), getPublishedTestimonials()]);
 
   return (
