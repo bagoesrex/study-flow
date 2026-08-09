@@ -3,7 +3,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { dashboardNavigationGroups } from "@/constants/navigation";
 import { DashboardSidebarGroup } from "@/components/layout/dashboard-sidebar-group";
@@ -30,6 +30,16 @@ function getInitials(name?: string | null): string {
 export function DashboardMobileSidebar({ user }: DashboardMobileSidebarProps) {
   const [open, setOpen] = useState(false);
 
+  useEffect(() => {
+    const desktopQuery = window.matchMedia("(min-width: 1024px)");
+    const closeOnDesktop = (event: MediaQueryListEvent) => {
+      if (event.matches) setOpen(false);
+    };
+
+    desktopQuery.addEventListener("change", closeOnDesktop);
+    return () => desktopQuery.removeEventListener("change", closeOnDesktop);
+  }, []);
+
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
       <Dialog.Trigger asChild>
@@ -40,10 +50,10 @@ export function DashboardMobileSidebar({ user }: DashboardMobileSidebarProps) {
       </Dialog.Trigger>
 
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-40 bg-slate-950/30 backdrop-blur-sm" />
+        <Dialog.Overlay className="fixed inset-0 z-40 bg-slate-950/30 opacity-100 backdrop-blur-sm transition-opacity duration-200" />
 
-        <Dialog.Content className="fixed inset-y-0 left-0 z-50 flex w-[88vw] max-w-sm flex-col border-r border-slate-200 bg-white shadow-2xl">
-          <div className="flex shrink-0 items-center justify-between px-4 pt-6 pb-4">
+        <Dialog.Content className="fixed inset-y-0 left-0 z-50 flex h-dvh max-h-dvh w-[88vw] max-w-sm translate-x-0 flex-col overflow-hidden border-r border-slate-200 bg-white shadow-2xl transition-transform duration-200 data-[state=closed]:-translate-x-full">
+          <div className="flex shrink-0 items-center justify-between border-b border-slate-100 px-4 pt-6 pb-4">
             <Link
               href="/dashboard"
               onClick={() => setOpen(false)}
@@ -58,6 +68,11 @@ export function DashboardMobileSidebar({ user }: DashboardMobileSidebarProps) {
                 <p className="truncate text-xs text-slate-500">Learning workspace</p>
               </div>
             </Link>
+
+            <Dialog.Title className="sr-only">Dashboard navigation</Dialog.Title>
+            <Dialog.Description className="sr-only">
+              Navigate to a StudyFlow dashboard section or manage your account.
+            </Dialog.Description>
 
             <Dialog.Close asChild>
               <Button variant="ghost" size="sm" aria-label="Close menu">
